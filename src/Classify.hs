@@ -12,6 +12,13 @@ escapeQuotes [] = []
 escapeQuotes ('"':rest) = '\\':'"':escapeQuotes rest
 escapeQuotes (x:rest) = x:escapeQuotes rest
 
+isHeader :: Tag String -> Bool
+isHeader (TagOpen (firstChar:secondChar:_) _) = firstChar `elem` "hH" && secondChar `elem` "123456"
+isHeader _ = False
+
+extractHeaderTags :: [Tag String] -> [Tag String]
+extractHeaderTags = filter isHeader
+
 formatAsJson :: Classifications -> String
 formatAsJson c = concat [
   "{\n"
